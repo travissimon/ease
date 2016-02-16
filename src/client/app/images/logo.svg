@@ -1,0 +1,5 @@
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="50" width="200" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" viewBox="0 0 200 50">
+	<path fill-rule="evenodd" fill="#fff" d="m0 50 25-50h150l-25 50z" fill-opacity=".7529"/>
+	<path fill-rule="evenodd" fill="#fff" d="m10 50 25-50h150l-25 50z" fill-opacity=".754"/>
+	<text style="word-spacing:0px;letter-spacing:0px" fill-opacity=".7529" xml:space="preserve" font-size="12.5px" y="37.705841" x="43.584717" font-family="sans-serif" line-height="150%" fill="#317eac"><tspan font-size="45px" fill-opacity=".7529" y="37.705841" x="43.584717" font-family="&apos;Phetsarath OT&apos;" fill="#317eac">ease</tspan></text>
+</svg>
