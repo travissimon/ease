@@ -10,8 +10,8 @@ module app.pages.projects {
 
 	export class ProjectIndexController {
 
-		static $inject = ['$scope', '$log', '$state'];
-		constructor(private $scope: ProjectIndexScope, private $log: ng.ILogService, private $state: ng.ui.IState) {
+		static $inject = ['$scope', '$log', '$state', 'ProjectService'];
+		constructor(private $scope: ProjectIndexScope, private $log: ng.ILogService, private $state: ng.ui.IStateService, private projectService: app.pages.projects.ProjectService) {
 			this.init();
 			var self = this;
 			$scope.vm = this;

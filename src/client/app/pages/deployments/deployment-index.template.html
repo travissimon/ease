@@ -1,0 +1,40 @@
+<div>
+  <h1>Deployments</h1>
+
+  <div class="space-md alert alert-info" ng-if="vm.projectService.isLoading">
+	<h3>Loading deployments</h3>
+
+	<p>Loading deployments ... one second please</p>
+  </div>
+
+  <div class="space-md" ng-if="vm.deploymentService.currentContainers.length > 0">
+	<table class="table table-striped">
+	  <thead>
+		<tr>
+		  <th></th>
+		  <th>Names</th>
+		  <th>Image</th>
+		  <th>Created</th>
+		  <th>Ports</th>
+		  <th>Exited</th>
+		  <th>Status</th>
+		</tr>
+	  </thead>
+	  <tbody>
+		<tr ng-repeat="cont in vm.deploymentService.currentContainers">
+		  <td><i ng-class="vm.getStatusIcon(cont)"></i></td>
+		  <td>{{cont.Names[0]}}</td>
+		  <td>{{cont.Image}}</td>
+		  <td>{{vm.getRelativeDate(cont.Created)}}</td>
+		  <td>
+			<div ng-repeat="p in cont.Ports">
+			  {{p.PublicPort}}:{{p.PrivatePort}}
+			</div>
+		  </td>
+		  <td>{{cont.Exited}}</td>
+		  <td>{{cont.Status}}</td>
+		</tr>
+	  </tbody>
+	</table>
+  </div>
+</div>

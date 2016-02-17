@@ -4,43 +4,40 @@
   <div class="space-md row">
 	<div class="col-sm-4 col-xs-12">
 	  <label for="projectName">Name</label>
-	  <input type="text" id="projectName" class="form-control" placeholder="Project Name" />
+	  <input type="text" id="projectName" class="form-control" placeholder="Project Name" ng-bind="vm.projectService.newProject.name" />
 	</div>
 	<div class="col-sm-3 col-sm-offset-1 col-xs-8">
 	  <label>Project type</label><br />
-	  <select>
-		<option>angular-js</option>
-		<option>maven</option>
-		<option>sbt</option>
-	  </select>
+	  templates: {{vm.projectService.availableBuildTemplates}}
+	  <select ng-mdodel="vm.projectService.newProject.buildTemplate" ng-options="template.name for template in vm.projectService.availableBuildTemplates"></select>
 	</div>
 	<div class="col-sm-4 col-xs-8">
 	  <label>ShortName</label><br />
 	  <kbd>bpc-parser</kbd>
 	</div>
   </div>
-
+  
   <div class="space-md row">
   	<div class="col-sm-4 col-xs-12">
 	  <label for="contact">Contact person</label>
-	  <input type="text" id="contact" class="form-control" placeholder="Contact name" />
+	  <input type="text" id="contact" class="form-control" placeholder="Contact name" ng-bind="vm.projectService.newProject.contact" />
 	</div>
   	<div class="col-sm-4 col-sm-offset-1 col-xs-12">
 	  <label>Contact email</label>
-	  <input type="text" id="contact" class="form-control" placeholder="Contact email" />
+	  <input type="text" id="contact" class="form-control" placeholder="Contact email" ng-bind="vm.projectService.newProject.email" />
 	</div>
   </div>
 
   <div class="space-md row">
 	<div class="col-sm-9 col-xs-12">
 	  <label for="projectName">Description</label>
-	  <input type="text" id="projectName" class="form-control" placeholder="Project Name" />
+	  <input type="text" id="projectName" class="form-control" placeholder="Project Name" ng-bind="vm.projectService.newProject.description" />
 	</div>
   </div>
 
   <div class="space-lg">
 	<button type="button" class="btn btn-danger" ng-click="clearForm()">
-	  <i class="fa fa-cancel"></i>
+	  <i class="fa fa-times"></i>
 	  Clear form
 	</button>
 	<button type="button" class="btn btn-success" ng-click="navigateToProjectUrls()">

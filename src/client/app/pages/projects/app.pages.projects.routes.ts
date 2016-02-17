@@ -24,6 +24,13 @@ module app.pages.projects {
 					"controller": "NewProjectController",
 					"controllerAs": "vm",
 					"templateUrl": "src/client/app/pages/projects/new-project.template.html"
+				},
+				{
+					"name": "projects-git",
+					"url": "/projects/git",
+					"controller": "GitController",
+					"controllerAs": "vm",
+					"templateUrl": "src/client/app/pages/projects/git.template.html"
 				}
 			]
 		}

@@ -1,0 +1,33 @@
+<div>
+  <h1>Ease Deployment Environments</h1>
+
+  <div class="space-md">
+	<button type="button" class="btn btn-primary" ng-click="newEnvironment()">Create new environment</button>
+  </div>
+
+  <div class="space-md alert alert-info" ng-if="vm.environmentService.isLoading">
+	<h3>Loading environments</h3>
+
+	<p>Loading environments ... one second please</p>
+  </div>
+
+  <div class="space-md" ng-if="vm.environmentService.currentEnvironments.length > 0">
+	<table class="table table-striped">
+	  <thead>
+		<tr>
+		  <th>Name</th>
+		  <th>Goobernet url</th>
+		  <th>Starting port</th>
+		</tr>
+	  </thead>
+	  <tbody>
+		<tr ng-repeat="env in vm.environmentService.currentEnvironments">
+		  <td>{{env.name}}</td>
+		  <td>{{env.goobernetUrl}}</td>
+		  <td>{{env.startingPort}}</td>
+		</tr>
+	  </tbody>
+	</table>
+  </div>
+
+</div>
