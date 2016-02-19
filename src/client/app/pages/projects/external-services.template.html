@@ -1,0 +1,78 @@
+<div>
+  <h1>Service Integration</h1>
+
+  <h2>Git Integration</h2>
+
+  <div class="space-md">
+	Not sure what this will be. Maybe offer to create repo if it doesn't exist?<br />
+	Maybe set up git hooks?
+  </div>
+
+
+  <h2>Jenkins</h2>
+
+  <div class="space-md" ng-if="jobState === vm.UNKNOWN">
+	<div ng-if="errorMessage == null || errorMessage.length === 0">
+	  Could not determine if this project exists within the Jenkins build server
+	</div>
+
+	<div class="alert alert-danger" ng-if="errorMessage != null && errorMessage.length > 0">
+	  {{errorMessage}}
+	</div>
+  </div>
+
+  <div class="space-md" ng-if="jobState === vm.NONE_SPECIFIED">
+	No project name has been specified, which makes it hard to create
+	a build for it . . .
+  </div>
+
+  <div class="space-md" ng-if="jobState === vm.QUERYING">
+	Querying Jenkins to see if {{vm.projectService.newProject.shortName}} exists already
+  </div>
+
+
+  <div class="space-md" ng-if="jobState === vm.EXISTS">
+	<h4>Found build job for {{job.name}}</h4>
+	<div class="row">
+	  <div class="col-sm-12">
+		<h3><a href="{{job.url}}" target="_blank">{{job.name}}</a> <small>{{job.description}}</small></h3>
+	  </div>
+	</div>
+	<div class="row">
+	  <div class="col-sm-1">
+		<svg viewBox="0 0 100 100" width="25" height="25">
+		  <circle cx="50" cy="50" r="40" style="fill:green" ng-if="job.lastBuild.IsGood" />
+		  <circle cx="50" cy="50" r="40" style="fill:red" ng-if="!job.lastBuild.IsGood" />
+		</svg>
+	  </div>
+	  <div class="col-sm-2">
+		Most recent: <a href="{{job.lastBuild.url}}" target="_blank">Build #{{job.lastBuild.buildNumber}}</a>
+	  </div>
+	  <div class="col-sm-2">
+		Completed: {{vm.getTimeDisplay(job.lastBuild.timestamp)}}
+	  </div>
+	  <div class="col.sm-2">
+		Build time: {{vm.getDurationDisplay(job.lastBuild.duration)}}
+	  </div>
+	</div>
+  </div>
+
+  <div class="space-md" ng-if="jobState === vm.DOES_NOT_EXIST">
+	<h4>No build job for {{job.name}} found</h4>
+
+	<p>This is a sad day for Canada and therefore the world.</p>
+
+	<div class="space-md" ng-if="vm.projectService.newProject.type != ''">
+	  <button type="button" class="btn btn-primary" ng-click="vm.projectService.createJob()">
+		<i class="fa fa-cogs"></i>
+		Create automatic build task for '{{vm.projectService.newProject.shortName}}'
+	  </button>
+	</div>
+	<div class="space-md" ng-if="vm.projectService.newProject.type == ''">
+	  <i class="fa fa-meh"></i>
+	  You have not selected a build template for this project, so we can't create a new project.
+	</div>
+  </div>
+
+  
+</div>

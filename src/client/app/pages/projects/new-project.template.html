@@ -4,43 +4,50 @@
   <div class="space-md row">
 	<div class="col-sm-4 col-xs-12">
 	  <label for="projectName">Name</label>
-	  <input type="text" id="projectName" class="form-control" placeholder="Project Name" ng-bind="vm.projectService.newProject.name" />
+	  <input type="text" id="projectName" class="form-control" placeholder="Project Name" ng-model="vm.projectService.newProject.name" />
 	</div>
 	<div class="col-sm-3 col-sm-offset-1 col-xs-8">
 	  <label>Project type</label><br />
-	  templates: {{vm.projectService.availableBuildTemplates}}
-	  <select ng-mdodel="vm.projectService.newProject.buildTemplate" ng-options="template.name for template in vm.projectService.availableBuildTemplates"></select>
+	  <select ng-model="vm.projectService.newProject.buildTemplate" ng-options="template.name for template in vm.projectService.availableBuildTemplates"></select>
 	</div>
 	<div class="col-sm-4 col-xs-8">
-	  <label>ShortName</label><br />
-	  <kbd>bpc-parser</kbd>
+	  <label>Short Name</label><br />
+	  <kbd ng-if="vm.projectService.newProject.shortName.length > 0" ng-bind="vm.projectService.newProject.shortName"></kbd>
 	</div>
   </div>
   
   <div class="space-md row">
-  	<div class="col-sm-4 col-xs-12">
-	  <label for="contact">Contact person</label>
-	  <input type="text" id="contact" class="form-control" placeholder="Contact name" ng-bind="vm.projectService.newProject.contact" />
-	</div>
-  	<div class="col-sm-4 col-sm-offset-1 col-xs-12">
-	  <label>Contact email</label>
-	  <input type="text" id="contact" class="form-control" placeholder="Contact email" ng-bind="vm.projectService.newProject.email" />
+	<div class="col-sm-5 col-xs-12">
+	  <label for="projectName">Description</label>
+	  <input type="text" id="projectName" class="form-control" placeholder="Project Name" ng-model="vm.projectService.newProject.description" />
 	</div>
   </div>
 
   <div class="space-md row">
-	<div class="col-sm-9 col-xs-12">
-	  <label for="projectName">Description</label>
-	  <input type="text" id="projectName" class="form-control" placeholder="Project Name" ng-bind="vm.projectService.newProject.description" />
+  	<div class="col-sm-4 col-xs-12">
+	  <label for="contact">Contact person</label>
+	  <input type="text" id="contact" class="form-control" placeholder="Contact name" ng-model="vm.projectService.newProject.contactName" />
+	</div>
+  	<div class="col-sm-4 col-sm-offset-1 col-xs-12">
+	  <label>Contact email</label>
+	  <input type="text" id="contact" class="form-control" placeholder="Contact email" ng-model="vm.projectService.newProject.email" />
 	</div>
   </div>
+
+  <div class="space-md row"> 
+	<div class="col-sm-5 col-xs-12">
+	  <label for="github">Github url</label>
+	  <input type="text" id="github" class="form-control" placeholder="Github URL" ng-model="vm.projectService.newProject.githubUrl" />
+	</div>
+ </div>
+
 
   <div class="space-lg">
 	<button type="button" class="btn btn-danger" ng-click="clearForm()">
 	  <i class="fa fa-times"></i>
 	  Clear form
 	</button>
-	<button type="button" class="btn btn-success" ng-click="navigateToProjectUrls()">
+	<button type="button" class="btn btn-success" ng-click="navigateToExternal()">
 	  <i class="fa fa-check"></i>
 	  Continue
 	</button>

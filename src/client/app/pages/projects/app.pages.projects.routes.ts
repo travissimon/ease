@@ -26,11 +26,11 @@ module app.pages.projects {
 					"templateUrl": "src/client/app/pages/projects/new-project.template.html"
 				},
 				{
-					"name": "projects-git",
-					"url": "/projects/git",
-					"controller": "GitController",
+					"name": "project-external-services",
+					"url": "/projects/external",
+					"controller": "ExternalServicesController",
 					"controllerAs": "vm",
-					"templateUrl": "src/client/app/pages/projects/git.template.html"
+					"templateUrl": "src/client/app/pages/projects/external-services.template.html"
 				}
 			]
 		}

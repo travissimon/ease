@@ -14,7 +14,7 @@ module.exports = router;
 var discoverOptions = {
   host: 'localhost',
   port: 7777,
-  path: '/discover/tsimon-local'
+  path: '/v1/discover/tsimon-local'
 };
 
 function getRandStr() {
@@ -42,7 +42,7 @@ function proxy(req, res) {
 	if (path[0] == '/') {
 		path = path.substring(1);
 	}
-	
+
 	var idx = path.indexOf('/');
 	var service = path.substring(0, idx);
 	var destinationPath = path.substring(idx);
@@ -73,6 +73,7 @@ function proxy(req, res) {
 			var spanId = '-';
 			if (discovery['remnant'] != null) {
 				// remnant is a combined observability/logging framework
+				// We use spans to trace our proxied call throughout the service network
 				spanId = getRandStr();
 				span = {
 					traceId: spanId,
@@ -94,6 +95,7 @@ function proxy(req, res) {
 				host: host,
 				port: port,
 				path: destinationPath,
+				method: req.method,
 				headers: {
 					"Remnant-Trace-Id": spanId,
 					"Remnant-Span-Id": spanId,
@@ -102,8 +104,8 @@ function proxy(req, res) {
 			};
 
 			var proxyResponse = '';
-			var proxyReq = http.request(proxyOptions, function(resp) {
-				resp.on('data', function(chunk) {
+			var proxyReq = http.request(proxyOptions, function(proxyResp) {
+				proxyResp.on('data', function(chunk) {
 					proxyResponse += chunk;
 				}).on('error', function(e) {
 					res.status(400).send(e.message);
@@ -115,7 +117,7 @@ function proxy(req, res) {
 
 						// observability using remnant service
 						span.remoteEnd = getTimestamp();
-						span.responseCode = resp.statusCode;
+						span.responseCode = proxyResp.statusCode;
 						var spanJson = JSON.stringify(span);
 
 						parsedLocation = url.parse(remnantLocation);
@@ -143,12 +145,12 @@ function proxy(req, res) {
 						remnantReq.end();
 						
 					}
-
+					res.status(proxyResp.statusCode);
 					res.send(proxyResponse);
 				});
 			});
 
-			proxyReq.write(req.body.toString());
+			proxyReq.write(JSON.stringify(req.body));
 			proxyReq.end();
 		});
 	});

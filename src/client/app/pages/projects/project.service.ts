@@ -5,8 +5,8 @@ module app.pages.projects {
 
 	export class ProjectService {
 
-		static $inject = ['$log', '$http'];
-		constructor(private $log: ng.ILogService, private $http: ng.IHttpService) {
+		static $inject = ['$log', '$http', '$q'];
+		constructor(private $log: ng.ILogService, private $http: ng.IHttpService, private $q: ng.IQService) {
 			this.clear();
 			this.loadProjects();
 			this.loadAvailableBuildTemplates();
@@ -18,22 +18,22 @@ module app.pages.projects {
 
 		public newProject = {
 			name: '',
-			type: '',
-			contact: '',
-			email: '',
+			shortName: '',
 			description: '',
+			email: '',
+			contactName: '',
 			githubUrl: '',
-			buildTemplate: 0
+			buildTemplate: '',
 		};		
 
 		public clear() {
-			this.newProject.name = "";
-			this.newProject.type = "";
-			this.newProject.contact = "";
-			this.newProject.email = "";
-			this.newProject.description = "";
-			this.newProject.githubUrl = "";
-			this.newProject.buildTemplate = 0;
+			this.newProject.name = '';
+			this.newProject.shortName = '';
+			this.newProject.description = '';
+			this.newProject.email = '';
+			this.newProject.contactName = '';
+			this.newProject.githubUrl = 'https://github.inside.nicta.com.au/';
+			this.newProject.buildTemplate = '';
 		}
 
 		public loadProjects() {
@@ -59,12 +59,53 @@ module app.pages.projects {
 				function loadTemplatesCallback(response) {
 					self.isLoading = false;
 					self.availableBuildTemplates = <any[]>response.data;
-					console.log('templates: ' + self.availableBuildTemplates.join(','));
 				}, function loadProjectsErrorCallback(error) {
 					self.isLoading = false;
 					self.$log.error(error);
 				}
 			);
+		}
+
+		public queryForJob(jobName: string): ng.IPromise<any> {
+			var deferred = this.$q.defer();
+			var promise = deferred.promise;
+
+			var url: string = '/proxy/goobernet/v1/job/' + jobName;
+			var self = this;
+			this.isLoading = true;
+			this.$http.get(url).then(
+				function loadTemplatesCallback(response) {
+					self.isLoading = false;
+					deferred.resolve(<any>response.data)
+				}, function loadProjectsErrorCallback(error) {
+					self.isLoading = false;
+					deferred.reject(error);
+				}
+			);
+
+			return promise;
+		}
+
+		public createJob(): ng.IPromise<any> {
+			var deferred = this.$q.defer();
+			var promise = deferred.promise;
+
+			var url: string = '/proxy/goobernet/v1/job/' + this.newProject.shortName;
+			var self = this;
+			this.isLoading = true;
+
+			var jsonStr = JSON.stringify(this.newProject)
+			this.$http.post(url, jsonStr).then(
+				function loadTemplatesCallback(response) {
+					self.isLoading = false;
+					deferred.resolve(<any>response.data)
+				}, function loadProjectsErrorCallback(error) {
+					self.isLoading = false;
+					deferred.reject(error);
+				}
+			);
+
+			return promise;			
 		}
 	}
 
