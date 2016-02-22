@@ -1,8 +1,67 @@
-<h1>
-  Welcome to your brand-new Angular/Typescript application
-</h1>
+<h1>Welcome to ease</h1>
 
+<h2 ng-if="vm.homepageService.isLoading" class="space-md">Loading</h2>
 
-<div>
-  Enjoy your stay!
+<div class="space-lg" ng-if="vm.homepageService.overview != null">
+  <div class="table-responsive">
+	<table class="table table-hover">
+	  <theader>
+		<tr>
+		  <th colspan="2">
+			Service
+		  </th>
+		  <th colspan="4" ng-repeat="env in vm.homepageService.overview.environments">
+			{{env}}
+		  </th>
+		</tr>
+	  </theader>
+	  <tbody>
+		<tr ng-repeat="easement in vm.homepageService.overview.easements">
+		  <td>
+			<svg viewBox="0 0 100 100" width="20" height="20" style="margin-right: 10px">
+			  <circle cx="50" cy="50" r="40" style="fill:green" ng-if="easement.build.isGood" />
+			  <circle cx="50" cy="50" r="40" style="fill:red" ng-if="!easement.build.isGood" />
+			</svg>
+		  </td>
+		  <td>
+			{{easement.name}}
+		  </td>
+		  <td ng-if="vm.easementHasContainer(env, easement)" ng-repeat-start="env in vm.homepageService.overview.environments">
+			<i ng-class="vm.getStatusIcon(vm.getDeploymentForEnvironment(env, easement).container)" style="margin-right: 6px"></i>
+			{{vm.getDeploymentForEnvironment(env, easement).container.status}}
+		  </td>
+		  <td ng-if="vm.easementHasContainer(env, easement)" >
+			<span ng-repeat="p in vm.getDeploymentForEnvironment(env, easement).container.ports" margin-right="4px">
+			  {{p.public}}:{{p.private}}
+			</span>
+		  </td>
+		  <td ng-if="vm.easementHasContainer(env, easement)">
+			Created {{vm.getRelativeDate(vm.getDeploymentForEnvironment(env, easement).container.created)}}
+		  </td>
+		  <td ng-if="!vm.easementHasContainer(env, easement)" colspan="3">
+			<i ng-class="vm.getStatusIcon(null)" style="margin-right: 6px"></i>
+			No container preset
+		  </td>
+		  <td ng-repeat-end>
+			<button type="button" style="btn btn-sm btn-default" ng-if="vm.canCreate(env, easement)" uib-popover="Create {{env}} {{easement.name}}" popover-trigger="mouseenter" popover-popup-delay="250" ng-click="createContainer(env, easement)">
+			  <i class="fa fa-cloud text-primary"></i>
+			</button>
+			<button type="button" style="btn btn-sm btn-default" ng-if="vm.canPlay(env, easement)" uib-popover="Create new instance" popover-trigger="mouseenter" popover-popup-delay="250" ng-click="createContainer(env, easement)">
+			  <i class="fa fa-play text-success"></i>
+			</button>
+			<button type="button" style="btn btn-sm btn-default" ng-if="vm.canPause(env, easement)" uib-popover="Create new instance" popover-trigger="mouseenter" popover-popup-delay="250" ng-click="createContainer(env, easement)">
+			  <i class="fa fa-pause"></i>
+			</button>
+			<button type="button" style="btn btn-sm btn-default" ng-if="vm.canStop(env, easement)" uib-popover="Create new instance" popover-trigger="mouseenter" popover-popup-delay="250" ng-click="createContainer(env, easement)">
+			  <i class="fa fa-stop"></i>
+			</button>
+			<button type="button" style="btn btn-sm btn-default" ng-if="vm.canDelete(env, easement)" uib-popover="Create new instance" popover-trigger="mouseenter" popover-popup-delay="250" ng-click="createContainer(env, easement)">
+			  <i class="fa fa-eject text-danger"></i>
+			</button>
+		  </td>
+		</tr>
+	  </tbody>
+	</table>
+
+  </div>
 </div>

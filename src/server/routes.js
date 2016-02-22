@@ -43,6 +43,8 @@ function proxy(req, res) {
 		path = path.substring(1);
 	}
 
+	console.log('Received request for: ' + path);
+
 	var idx = path.indexOf('/');
 	var service = path.substring(0, idx);
 	var destinationPath = path.substring(idx);
