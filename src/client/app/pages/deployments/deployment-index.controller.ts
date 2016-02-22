@@ -25,7 +25,7 @@ module app.pages.deployments {
 		private notRunningRe = /(restarting)|(paused)|(created)/g;
 		private badRe = /(exited)|(dead)/g;
 		private getStatusIcon(container) {
-			var status = container.Status.toLowerCase();
+			var status = container.status.toLowerCase();
 			if (status.startsWith('up')) {
 				return 'fa fa-smile-o text-success';
 			} else if (this.notRunningRe.test(status)) {

@@ -12,27 +12,25 @@
 	  <thead>
 		<tr>
 		  <th></th>
-		  <th>Names</th>
+		  <th>Name</th>
 		  <th>Image</th>
 		  <th>Created</th>
 		  <th>Ports</th>
-		  <th>Exited</th>
 		  <th>Status</th>
 		</tr>
 	  </thead>
 	  <tbody>
 		<tr ng-repeat="cont in vm.deploymentService.currentContainers">
 		  <td><i ng-class="vm.getStatusIcon(cont)"></i></td>
-		  <td>{{cont.Names[0]}}</td>
-		  <td>{{cont.Image}}</td>
-		  <td>{{vm.getRelativeDate(cont.Created)}}</td>
+		  <td>{{cont.name}}</td>
+		  <td>{{cont.image}}</td>
+		  <td>{{vm.getRelativeDate(cont.created)}}</td>
 		  <td>
 			<div ng-repeat="p in cont.Ports">
-			  {{p.PublicPort}}:{{p.PrivatePort}}
+			  {{p.public}}:{{p.private}}
 			</div>
 		  </td>
-		  <td>{{cont.Exited}}</td>
-		  <td>{{cont.Status}}</td>
+		  <td>{{cont.status}}</td>
 		</tr>
 	  </tbody>
 	</table>
